@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore
+        run: dotnet restore GridMonitor.sln
+
+      - name: Build
+        run: dotnet build GridMonitor.sln --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test GridMonitor.sln --configuration Release --no-build --verbosity normal
+
+      - name: Publish app
+        run: dotnet publish src/GridMonitor.App/GridMonitor.App.csproj --configuration Release --runtime win-x64 --self-contained true -p:PublishSingleFile=true --output publish
+
+      - name: Upload app
+        uses: actions/upload-artifact@v4
+        with:
+          name: GridMonitor-win-x64
+          path: publish/
