@@ -41,6 +41,22 @@ public class ViewModelTests
     }
 
     [Fact]
+    public void ApplyBatch_UpdatesLastUpdateText()
+    {
+        var vm = new MainViewModel(_source, new ImmediateDispatcher());
+        var changed = new List<string?>();
+        ((INotifyPropertyChanged)vm).PropertyChanged += (_, e) => changed.Add(e.PropertyName);
+
+        Assert.Equal("-", vm.LastUpdateText);
+
+        var reading = Reading(currentA: 200);
+        vm.ApplyBatch([reading], 1);
+
+        Assert.Equal(reading.Timestamp.ToLocalTime().ToString("HH:mm:ss.f"), vm.LastUpdateText);
+        Assert.Contains(nameof(MainViewModel.LastUpdateText), changed);
+    }
+
+    [Fact]
     public void Overload_AddsAlarm_AndMarksFeeder()
     {
         var vm = new MainViewModel(_source, new ImmediateDispatcher());
