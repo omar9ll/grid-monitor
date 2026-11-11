@@ -39,7 +39,7 @@
                     </StackPanel>
                     <StackPanel>
                         <TextBlock Text="LAST UPDATE" Style="{StaticResource Label}" />
-                        <TextBlock Text="{Binding LastUpdate.Value.LocalDateTime, StringFormat={}{0:HH:mm:ss.f}, FallbackValue=-}" Style="{StaticResource Value}" />
+                        <TextBlock Text="{Binding LastUpdateText}" Style="{StaticResource Value}" />
                     </StackPanel>
                 </StackPanel>
             </DockPanel>
