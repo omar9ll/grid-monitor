@@ -87,8 +87,15 @@ public sealed class MainViewModel : ObservableObject, IAsyncDisposable
     public DateTimeOffset? LastUpdate
     {
         get => _lastUpdate;
-        private set => SetProperty(ref _lastUpdate, value);
+        private set
+        {
+            if (SetProperty(ref _lastUpdate, value))
+                OnPropertyChanged(nameof(LastUpdateText));
+        }
     }
+
+    /// <summary>Local time of the newest reading, formatted for the header ("-" before the first reading).</summary>
+    public string LastUpdateText => _lastUpdate is { } t ? t.ToLocalTime().ToString("HH:mm:ss.f") : "-";
 
     public void Start()
     {
