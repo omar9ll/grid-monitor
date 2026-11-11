@@ -4,12 +4,23 @@ A Windows desktop app that monitors a simulated electrical distribution network 
 
 Built to practise the things that matter in real-time desktop software: **MVVM**, **keeping the UI thread free**, **producer/consumer pipelines**, and **testable design**.
 
+![Grid Monitor dashboard with live feeders, a critical overload and the alarm log](docs/dashboard-alarms.png)
+
 ## ✨ Features
 - **Live feeder cards**: voltage (kV), current (A), load (MVA), loading % of rating, and a 120-point load trend line
 - **Breaker control**: open/close commands sent asynchronously to the (simulated) field device, with a pending state while the command is in flight
 - **Alarm engine**: overload warnings (≥90% of rating), critical alarms (≥105%) and under-voltage alarms (<0.95 pu), with a **deadband** so alarms don't flicker when a value hovers at the limit
 - **Alarm log**: newest first, capped at 200 entries, colour-coded by severity
 - **Header stats**: live/stopped, readings per second, total system load, active alarm count
+
+## 📸 Screenshots
+
+**Operator opens breakers**: de-energized feeders drop to zero and their alarms clear in the log
+![Breakers opened on three feeders while others are in critical overload](docs/breakers-open.png)
+
+| Normal feeder | Feeder in critical overload |
+|---|---|
+| ![Feeder card in normal state](docs/feeder-normal.png) | ![Feeder card in critical overload](docs/feeder-critical.png) |
 
 ## 🧱 Architecture
 
